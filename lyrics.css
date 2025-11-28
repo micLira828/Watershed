@@ -1,0 +1,212 @@
+/* ================================
+   GLOBAL
+================================= */
+
+body {
+  background: #0A1624;
+  color: #EAF0F6;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Reuse .header, .footer from style.css */
+
+
+/* ================================
+   HERO SECTION FOR LYRICS
+================================= */
+
+.lyrics-hero {
+  height: 50vh;
+  background-image: url('../images/rainy-lake.jpg'); /* replace if needed */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 70px; /* offset for fixed header */
+}
+
+.lyrics-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(6, 14, 24, 0.65),
+    rgba(5, 20, 35, 0.85)
+  );
+  backdrop-filter: blur(2px);
+}
+
+.lyrics-hero-content {
+  position: relative;
+  text-align: center;
+}
+
+.lyrics-hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.2rem;
+}
+
+.lyrics-hero-content p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: #DDE6EF;
+}
+
+
+/* ================================
+   LYRICS SECTIONS
+================================= */
+
+.lyrics-section {
+  padding: 70px 20px;
+  background: url('../images/abstract-water-texture.jpg') center/cover no-repeat;
+  background-blend-mode: soft-light;
+  background-color: #0F1D2A;
+}
+
+.inner {
+  max-width: 900px;
+  margin: auto;
+}
+
+
+/* ================================
+   PART HEADERS
+================================= */
+
+.part-header {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  margin: 40px 0 15px;
+  color: #DDE6EF;
+  border-left: 4px solid #7CC7D9;
+  padding-left: 15px;
+}
+
+
+/* ================================
+   ACCORDION CORE STYLES
+================================= */
+
+.accordion {
+  margin-bottom: 50px;
+}
+
+.accordion-item {
+  margin-bottom: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(12, 26, 40, 0.6);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: 0.3s ease;
+}
+
+/* ================================
+   ACCORDION BUTTON (HEADERS)
+================================= */
+
+.accordion-button {
+  width: 100%;
+  padding: 18px 20px;
+  text-align: left;
+  background: linear-gradient(
+    135deg,
+    rgba(14, 40, 52, 0.8),
+    rgba(10, 28, 44, 0.8)
+  );
+  border: none;
+  outline: none;
+  color: #EAF0F6;
+  font-size: 1.1rem;
+  font-family: 'Playfair Display', serif;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  position: relative;
+  transition: 0.25s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Glow effect on hover */
+.accordion-button:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(18, 58, 78, 0.85),
+    rgba(12, 40, 58, 0.85)
+  );
+  color: #AEE8F1;
+}
+
+/* Arrow indicator */
+.accordion-button::after {
+  content: "▾";
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.accordion-button.active::after {
+  transform: rotate(180deg);
+}
+
+/* ================================
+   ACCORDION PANEL (CONTENT)
+================================= */
+
+.accordion-panel {
+  max-height: 0;
+  overflow: hidden;
+  background: rgba(8, 20, 32, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0 20px;
+  transition: max-height 0.35s ease, padding 0.3s ease;
+}
+
+.accordion-button.active + .accordion-panel {
+  padding: 20px;
+}
+
+/* Lyrics text */
+.accordion-panel p {
+  margin-bottom: 18px;
+  color: #E0E7EE;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+
+/* ================================
+   SOUND / PLAYER PLACEHOLDER
+================================= */
+
+.soundcloud-placeholder {
+  text-align: center;
+  padding: 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  margin-bottom: 30px;
+  color: #AEE8F1;
+  font-size: 0.95rem;
+}
+
+
+/* ================================
+   RESPONSIVE TWEAKS
+================================= */
+
+@media (max-width: 768px) {
+  .lyrics-hero-content h1 {
+    font-size: 2.4rem;
+  }
+
+  .part-header {
+    font-size: 1.8rem;
+  }
+
+  .accordion-button {
+    font-size: 1rem;
+    padding: 16px;
+  }
+}

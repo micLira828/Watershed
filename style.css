@@ -1,0 +1,154 @@
+/* ================================
+    FONT + GLOBAL RESET
+================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0A1624;
+  color: #EAEFF4;
+  line-height: 1.65;
+}
+
+/* ================================
+    HEADER + NAV
+================================= */
+.header {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(5, 15, 25, 0.6);
+  backdrop-filter: blur(6px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.nav ul {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+}
+
+.nav a {
+  color: #EAEFF4;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.nav a:hover {
+  color: #7CC7D9;
+}
+
+/* ================================
+    HERO SECTION
+================================= */
+
+.hero {
+  height: 85vh;
+  background-image: url('../images/rainy-lake.jpg'); /* Replace with your image */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 80px; /* offset for fixed header */
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(6, 14, 24, 0.65),
+    rgba(5, 20, 35, 0.85)
+  );
+  backdrop-filter: blur(1.5px);
+}
+
+.hero-content {
+  position: relative;
+  text-align: center;
+  max-width: 700px;
+}
+
+.hero-content h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: #D7E1EA;
+  margin-bottom: 25px;
+}
+
+/* ================================
+    ABOUT SECTION
+================================= */
+.about {
+  padding: 80px 20px;
+  background: url('../images/abstract-water-texture.jpg') center/cover no-repeat;
+  background-blend-mode: soft-light;
+  background-color: #0F1D2A;
+}
+
+.inner {
+  max-width: 800px;
+  margin: auto;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+}
+
+.about p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* ================================
+    WATERSHED DEFINITION
+================================= */
+.definition {
+  padding: 70px 20px;
+  background: #0a1b2d;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.definition p {
+  font-size: 1.15rem;
+  opacity: 0.95;
+  line-height: 1.7;
+}
+
+/* ================================
+    FOOTER
+================================= */
+.footer {
+  text-align: center;
+  padding: 40px;
+  background: #06111C;
+  color: #BAC6D1;
+  font-size: 0.95rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
