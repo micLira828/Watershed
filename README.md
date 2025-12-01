@@ -196,11 +196,4 @@ Perfect for:
 
 ---
 
-If you want, I can now:
 
-✅ Generate the **Trello CSV** for Watershed
-✅ Generate the **GitHub README file version**
-✅ Create the **dbdiagram.io code** for copy/paste
-✅ Write the **starter Flask folder code**
-
-Just tell me **“give me the Trello CSV”** or **“give me the Flask starter”**.
