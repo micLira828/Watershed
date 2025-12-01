@@ -1,310 +1,206 @@
----
+# 🌊 Watershed — Backend API
 
-# 🎸 Watershed Band Backend (Flask Fullstack)
-
-A Flask-powered backend that renders dynamic pages and exposes JSON API routes for the Watershed Band website.
-
-This backend manages the band’s content, including shows, albums, tracks, news posts, band members, gallery items, subscribers, and contact messages. It uses PostgreSQL + SQLAlchemy for data modeling and Jinja templates for HTML rendering.
+A lightweight Flask API powering the Watershed site’s dynamic content: **news posts, shows, gallery items, albums, and tracks**.
+This backend supports your existing static front-end and allows you to update site content without touching the HTML.
 
 ---
 
-## 📖 Overview
+## 📦 Tech Stack
 
-This project is a hybrid Flask application that supports:
-
-* **Public-facing HTML pages** rendered with Jinja
-* **JSON API routes** for admin tools, integrations, or future dashboards
-* **PostgreSQL database** with SQLAlchemy ORM
-* **JWT-based admin authentication**
-
-This backend makes the Watershed Band site fully dynamic while preserving the existing frontend design.
+* **Python 3.11+**
+* **Flask** (API framework)
+* **SQLAlchemy** (ORM)
+* **PostgreSQL** (database)
+* **Marshmallow** (serialization)
 
 ---
 
-## 🗂 Tech Stack
+## 🗄 Database Schema (Updated)
 
-* Python
-* Flask
-* Jinja2 Templates
-* SQLAlchemy ORM
-* PostgreSQL
-* JWT Authentication
-* Werkzeug Security
+The backend uses the following entities:
 
----
+### **news_posts**
 
-## 🧠 Core Features
-
-### Public-Facing
-
-* List and view **shows**
-* Browse **albums**
-* View individual **album detail pages** with tracklists
-* Read **news posts**
-* View **band members**
-* Browse the **photo gallery**
-* Submit **contact messages**
-* Subscribe to the **email list**
-
-### Admin (via JSON API)
-
-* Manage shows
-* Manage albums & tracks
-* Manage news posts
-* Manage band members
-* Manage gallery items
-* View contact messages
-* View subscriber list
+| Column     | Type         | Notes       |
+| ---------- | ------------ | ----------- |
+| id         | serial       | PK          |
+| title      | varchar(200) | required    |
+| body       | text         | required    |
+| image_url  | varchar      | optional    |
+| created_at | timestamp    | default NOW |
 
 ---
 
-# 🔄 Page Routes (HTML, Jinja)
+### **shows**
 
-```
-GET /                   # home
-GET /shows              # upcoming shows
-GET /albums             # all albums
-GET /albums/<id>        # single album + tracks
-GET /news               # all news posts
-GET /news/<id>          # single news post
-GET /members            # band members
-GET /gallery            # photo gallery
-GET /contact            # contact form page
-POST /contact           # submit form → save message
-POST /subscribe         # subscribe to email list
-```
-
----
-
-# 🧊 JSON API Routes (Admin / Programmatic)
-
-All JSON routes begin with `/api`.
+| Column      | Type      | Notes       |
+| ----------- | --------- | ----------- |
+| id          | serial    | PK          |
+| title       | varchar   | required    |
+| venue       | varchar   | required    |
+| address     | varchar   | required    |
+| city        | varchar   | required    |
+| date        | date      | required    |
+| time        | varchar   | required    |
+| ticket_url  | varchar   | optional    |
+| description | text      | optional    |
+| created_at  | timestamp | default NOW |
 
 ---
 
-### 🔐 Authentication
+### **albums**
 
-```
-POST /api/auth/login
-GET  /api/auth/me
-```
-
----
-
-### 🎤 Shows API
-
-```
-GET    /api/shows
-GET    /api/shows/<id>
-POST   /api/shows
-PUT    /api/shows/<id>
-DELETE /api/shows/<id>
-```
+| Column          | Type      | Notes       |
+| --------------- | --------- | ----------- |
+| id              | serial    | PK          |
+| title           | varchar   | required    |
+| release_date    | date      | required    |
+| cover_image_url | varchar   | optional    |
+| created_at      | timestamp | default NOW |
 
 ---
 
-### 💿 Albums & Tracks API
+### **tracks**
 
-```
-GET    /api/albums
-GET    /api/albums/<id>
-POST   /api/albums
-PUT    /api/albums/<id>
-DELETE /api/albums/<id>
-```
+(Each track belongs to an album.)
 
-Tracks:
-
-```
-GET    /api/albums/<album_id>/tracks
-POST   /api/albums/<album_id>/tracks
-PUT    /api/tracks/<track_id>
-DELETE /api/tracks/<track_id>
-```
+| Column       | Type      | Notes          |
+| ------------ | --------- | -------------- |
+| id           | serial    | PK             |
+| album_id     | int       | FK → albums.id |
+| title        | varchar   | required       |
+| audio_url    | varchar   | required       |
+| track_number | int       | optional       |
+| created_at   | timestamp | default NOW    |
 
 ---
 
-### 📰 News API
+### **gallery_items**
 
-```
-GET    /api/news
-GET    /api/news/<id>
-POST   /api/news
-PUT    /api/news/<id>
-DELETE /api/news/<id>
-```
-
----
-
-### 🎸 Band Members API
-
-```
-GET    /api/members
-GET    /api/members/<id>
-POST   /api/members
-PUT    /api/members/<id>
-DELETE /api/members/<id>
-```
+| Column     | Type      | Notes       |
+| ---------- | --------- | ----------- |
+| id         | serial    | PK          |
+| image_url  | varchar   | required    |
+| caption    | varchar   | optional    |
+| created_at | timestamp | default NOW |
 
 ---
 
-### 🖼 Gallery API
+## 🔗 API Endpoints
 
-```
-GET    /api/gallery
-GET    /api/gallery/<id>
-POST   /api/gallery
-DELETE /api/gallery/<id>
-```
+### **News Posts**
 
----
-
-### 📧 Subscribers API
-
-```
-POST /api/subscribe
-GET  /api/subscribers
-```
+| Method | Endpoint         | Description         |
+| ------ | ---------------- | ------------------- |
+| GET    | `/api/news`      | List all news posts |
+| GET    | `/api/news/<id>` | Get one post        |
+| POST   | `/api/news`      | Create a news post  |
+| PUT    | `/api/news/<id>` | Update a post       |
+| DELETE | `/api/news/<id>` | Delete a post       |
 
 ---
 
-### ✉️ Contact Messages API
+### **Shows**
+
+| Method | Endpoint          |
+| ------ | ----------------- |
+| GET    | `/api/shows`      |
+| GET    | `/api/shows/<id>` |
+| POST   | `/api/shows`      |
+| PUT    | `/api/shows/<id>` |
+| DELETE | `/api/shows/<id>` |
+
+---
+
+### **Albums**
+
+| Method | Endpoint           |
+| ------ | ------------------ |
+| GET    | `/api/albums`      |
+| GET    | `/api/albums/<id>` |
+| POST   | `/api/albums`      |
+| PUT    | `/api/albums/<id>` |
+| DELETE | `/api/albums/<id>` |
+
+---
+
+### **Tracks**
+
+| Method | Endpoint                        |
+| ------ | ------------------------------- |
+| GET    | `/api/albums/<album_id>/tracks` |
+| GET    | `/api/tracks/<id>`              |
+| POST   | `/api/albums/<album_id>/tracks` |
+| PUT    | `/api/tracks/<id>`              |
+| DELETE | `/api/tracks/<id>`              |
+
+---
+
+### **Gallery Items**
+
+| Method | Endpoint            |
+| ------ | ------------------- |
+| GET    | `/api/gallery`      |
+| GET    | `/api/gallery/<id>` |
+| POST   | `/api/gallery`      |
+| PUT    | `/api/gallery/<id>` |
+| DELETE | `/api/gallery/<id>` |
+
+---
+
+## 📁 Project Structure (Flask)
 
 ```
-POST /api/contact
-GET  /api/contact
-GET  /api/contact/<id>
+watershed_api/
+│── app.py
+│── config.py
+│── models/
+│     ├── news_posts.py
+│     ├── shows.py
+│     ├── albums.py
+│     ├── tracks.py
+│     └── gallery_items.py
+│── routes/
+│     ├── news_routes.py
+│     ├── show_routes.py
+│     ├── album_routes.py
+│     ├── track_routes.py
+│     └── gallery_routes.py
+│── schemas/
+│── migrations/
+└── README.md
 ```
 
 ---
 
-# 🏗 Database Schema (SQLAlchemy Summary)
+## 🎯 Purpose of This API
 
-Models include:
+This backend allows you to update the Watershed site dynamically without editing HTML.
+Perfect for:
 
-* `User` — Admin authentication
-* `Show` — Live shows
-* `Album` — Music releases
-* `Track` — Tracks belonging to albums
-* `NewsPost` — Blog/news posts
-* `BandMember` — Members of the band
-* `GalleryItem` — Photo gallery items
-* `Subscriber` — Email list
-* `ContactMessage` — Form submissions
-
-A full dbdiagram is included in:
-`schema.dbdiagram.txt`
+✔ Adding new shows
+✔ Posting announcements / news
+✔ Updating the gallery
+✔ Managing albums & tracks
+✔ Making the site fully maintainable
 
 ---
 
-# 📁 Project Structure
+## 🧪 Future Enhancements
 
-```
-watershed_backend/
-│
-├── app.py
-├── config.py
-├── requirements.txt
-├── .env
-│
-├── templates/
-│   ├── base.html
-│   ├── index.html
-│   ├── shows.html
-│   ├── albums.html
-│   ├── album_detail.html
-│   ├── news.html
-│   ├── news_detail.html
-│   ├── members.html
-│   ├── gallery.html
-│   ├── contact.html
-│   └── subscribe_success.html
-│
-├── static/
-│   ├── css/
-│   ├── js/
-│   └── images/
-│
-├── models/
-│   ├── __init__.py
-│   ├── user.py
-│   ├── show.py
-│   ├── album.py
-│   ├── track.py
-│   ├── news_post.py
-│   ├── band_member.py
-│   ├── gallery_item.py
-│   ├── subscriber.py
-│   └── contact_message.py
-│
-├── routes/
-│   ├── __init__.py
-│   ├── page_routes.py
-│   ├── auth_routes.py
-│   ├── show_routes.py
-│   ├── album_routes.py
-│   ├── track_routes.py
-│   ├── news_routes.py
-│   ├── member_routes.py
-│   ├── gallery_routes.py
-│   ├── subscriber_routes.py
-│   └── contact_routes.py
-│
-├── db/
-│   ├── __init__.py
-│   └── database.py
-│
-└── tasks.csv   # Trello planning
-```
+* Admin dashboard
+* Authentication for posting content
+* Search & filters
+* Pagination
+* Spotify/YouTube embeds for tracks
 
 ---
 
-# 🚀 Getting Started
+If you want, I can now:
 
-### 1. Create virtual environment
+✅ Generate the **Trello CSV** for Watershed
+✅ Generate the **GitHub README file version**
+✅ Create the **dbdiagram.io code** for copy/paste
+✅ Write the **starter Flask folder code**
 
-```
-python -m venv venv
-source venv/bin/activate
-```
-
-### 2. Install dependencies
-
-```
-pip install -r requirements.txt
-```
-
-### 3. Create `.env`
-
-```
-FLASK_APP=app.py
-FLASK_ENV=development
-DATABASE_URL=postgresql://user:pass@localhost:5432/watershed_api
-JWT_SECRET=supersecretkey
-```
-
-### 4. Initialize the database
-
-Run migrations or a custom setup script.
-
-### 5. Start the server
-
-```
-flask run
-```
-
----
-
-# 🧩 Included Files
-
-* `schema.dbdiagram.txt` – for DB modeling
-* `tasks.csv` – Trello Kanban import
-
----
-
-# ✨ Author
-
-**Michelle Liran Gepshtein**
-Digital Alchemist • Full-Stack Developer (Flask, Python, SQLAlchemy, Jinja2)
-
----
+Just tell me **“give me the Trello CSV”** or **“give me the Flask starter”**.
